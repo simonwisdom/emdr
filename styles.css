@@ -1,0 +1,22 @@
+h1 {
+    text-align: center;
+  }
+  
+  #gameContainer {}
+  
+  body {
+    /* background: rgb(255, 255, 255); */
+    background: #000;
+    color: #b87c22;
+    font-family: 'Helvetica';
+  }
+  
+  canvas {
+    background: #000000;
+    padding: 20;
+    margin: 0 auto;
+    display: block;
+    overflow: hidden;
+    width: 99vw;
+  }
+  
