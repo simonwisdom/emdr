@@ -9,7 +9,10 @@ var ballColor = "#0095DD";
 var storedDx = 20;
 var storedDy = 0.5;
 var widthShrink = 0;
+var yBounce = 2;
+
 document.getElementById("displayDx").innerHTML = storedDx^2;
+document.getElementById("displayYBounce").innerHTML = yBounce;
 
 function drawBall() {
     ctx.beginPath();
@@ -28,7 +31,7 @@ function draw() {
         || x + dx < ballRadius + widthShrink) {
         dx = -dx;
         // Bounce at a random shallow Y direction
-        dy = dy * (1 - 3 * Math.random()) + (1 - 3 * Math.random());
+        dy = dy * (1 - 2 * Math.random()) + yBounce;
     }
 
     // Bounce off top and bottom border
@@ -64,8 +67,14 @@ function adjustSpeed(speed){
     // document.getElementById("displayDy").innerHTML = storedDy;
 }
 
-function adjustAngle(angle){
-    storedDy = storedDy * angle;
+function adjustYbounce(bounce){
+    yBounce = yBounce + bounce;
+    if (yBounce > 8)
+        yBounce = 8;
+    if (yBounce < 0)
+        yBounce = 0;
+    document.getElementById("displayYBounce").innerHTML = yBounce;
+    // document.getElementById("displayDy").innerHTML = storedDy;
 }
 
 // Freeze the ball on button click, or restart movement
