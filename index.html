@@ -22,32 +22,44 @@
   <!-- <h1 id='gameTitle'>Follow the ball</h1> -->
 
   <div id="gameContainer">
-    <canvas id="myCanvas" width="1500" height="300"></canvas>
+    <canvas id="myCanvas" width="1500" height="500"></canvas>
     <!-- <canvas id="gameCanvas"></canvas> -->
   </div>
 
   <div id="buttons">
-    <h3>Ball colour</h3>
+    <h2>Press spacebar to start!</h2>
+    <br>
+    <span>Background colour &nbsp</span>
+    <button onClick="backgroundColor('#000')">Black</button>
+    <button onClick="backgroundColor('rgb(255, 255, 255)')">White</button>
+
+    <br>
+    <br>
+    <span>Ball colour &nbsp</span>
     <button onClick="chooseColor('red')">Red</button>
     <button onClick="chooseColor('yellow')">Yellow</button>
     <button onClick="chooseColor('orange')">Orange</button>
-    <button onClick="chooseColor('lightblue')">Blue</button>
+    <button onClick="chooseColor('blue')">Blue</button>
 
-    <h4>Current speed: <span id='displayDx'></span></h4>    
+    <br>
+    <br>
+    <span>Current speed: <span id='displayDx'></span> &nbsp</span>
     <button onClick="adjustSpeed(1.3)">Faster</button>
     <button onClick="adjustSpeed(0.7)">Slower</button>
     <!-- <input type="text" id="displayDx" value="Current speed:"/> -->
     <!-- <button onClick="adjustAngle(2)">More Angle</button>
     <button onClick="adjustAngle(0.5)">Less Angle</button> -->
-    <h3>Size</h3>
+
+    <br>
+    <br>
+    <span>Size &nbsp</span>
     <button onClick="adjustSize(1.3)">Bigger</button>
     <button onClick="adjustSize(0.7)">Smaller</button>
-    <h3>Press spacebar to start!</h3>
-    <!-- <button onClick="pause()">Pause</button> -->
-</div>
-<div>
-  <!-- <span id='displayDy'></span> -->
-  <!-- <input type="text" id="no"/> -->
+
+    <!-- <h3>Press Escape to exit fullscreen.</h3> -->
+    <br>
+    <br>
+    <button onClick="toggleFullscreen()">Toggle fullscreen</button>
 </div>
 
 <!-- <div>
