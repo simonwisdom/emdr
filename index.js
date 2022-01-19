@@ -31,7 +31,7 @@ function draw() {
         || x + dx < ballRadius + widthShrink) {
         dx = -dx;
         // Bounce at a random shallow Y direction
-        dy = dy * (1 - 2 * Math.random()) + yBounce;
+        dy = dy * (1 - 2 * Math.random()) + yBounce/2;
     }
 
     // Bounce off top and bottom border
