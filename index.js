@@ -49,6 +49,7 @@ function chooseColor(choice){
 function backgroundColor(choice){
     document.body.style.background = choice;
     document.getElementById("gameContainer").style.background = choice;
+    document.getElementById("myCanvas").style.background = choice;
     // document.getElementById("buttons").style.background = choice;
 
 }
