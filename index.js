@@ -1,15 +1,15 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var ballRadius = 30;
+var ballRadius = 20;
 var x = canvas.width/2;
-var y = canvas.height-30;
+var y = canvas.height/2;
 var dx = 0;
 var dy = 0;
 var ballColor = "#0095DD";
-var storedDx = 20;
+var storedDx = 60;
 var storedDy = 0.5;
 var widthShrink = 0;
-var yBounce = 2;
+var yBounce = 3;
 
 document.getElementById("displayDx").innerHTML = storedDx^2;
 document.getElementById("displayYBounce").innerHTML = yBounce;
@@ -22,28 +22,43 @@ function drawBall() {
     ctx.closePath();
 }
 
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBall();
+var time;
 
-    // Bounce off left and right border
-    if(x + dx > canvas.width-ballRadius-widthShrink
-        || x + dx < ballRadius + widthShrink) {
-        dx = -dx;
-        // Bounce at a random shallow Y direction
-        dy = dy * (1 - 2 * Math.random()) + yBounce/2;
-    }
+(function draw() {
+    setTimeout(function() {
 
-    // Bounce off top and bottom border
-    if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
-        dy = -dy;
-    }
+        // ReDraw background rectance
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    x += dx;
-    y += dy;
-    widthShrink = 300 * Math.random() * Math.random();
+        // Draw the ball
+        drawBall();
 
-}
+        // Bounce off left and right border
+        if(x + dx > canvas.width-ballRadius-widthShrink
+            || x + dx < ballRadius + widthShrink) {
+            dx = -dx;
+            // Bounce at a random shallow Y direction
+            dy = (dy + yBounce) * (1 - 2 * Math.random());
+        }
+
+        // Bounce off top and bottom border
+        if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+            dy = -dy;
+        }
+
+        // move the ball
+        x += dx;
+        y += dy;
+
+        // change the left and right inner boundaries
+        widthShrink = 300 * Math.random() * Math.random();
+
+        // loop the draw function
+        window.requestAnimationFrame(draw);
+
+    }, 1000 / 60); // Force 60fps
+})(performance.now());
+
 
 function chooseColor(choice){
     ballColor = choice;
@@ -140,5 +155,4 @@ document.addEventListener("focus", (e) => {
   }, true);
 
 
-
-setInterval(draw, 1);
+// setInterval(draw, 1);
