@@ -92,6 +92,25 @@ function adjustYbounce(bounce){
     // document.getElementById("displayDy").innerHTML = storedDy;
 }
 
+function startTimer () {
+    seconds++;
+    appendSeconds.innerHTML = seconds/10;
+}
+
+function startSession() {
+    clearInterval(Interval);
+    Interval = setInterval(startTimer, 100);
+}
+
+function clearTimer() {
+    clearInterval(Interval);
+    seconds = 0;
+}
+
+var seconds = 0;
+var Interval;
+var appendSeconds = document.getElementById("seconds")
+
 // Freeze the ball on button click, or restart movement
 function pause(){
     if (Math.abs(dx) > 0 || Math.abs(dy) > 0){
@@ -99,9 +118,11 @@ function pause(){
         dx = 0;
         dy = 0;
         x = canvas.width/2;
+        clearTimer();
         } else {
           dx = storedDx;
           dy = storedDy;
+          startSession();
         }
 }
 
@@ -125,19 +146,29 @@ var elem = document.body; // Make the body go full screen.
 
 // Hide buttons when unpaused
 const targetDiv = document.getElementById("buttons");
+var canvasHeight = canvas.height;
 
 document.body.onkeyup = function(e){
     if(e.keyCode == 32){
         if (targetDiv.style.display !== "none") {
             targetDiv.style.display = "none";
             pause();
-            // requestFullScreen(elem);
+            canvas.height = window.innerHeight
           } else {
             targetDiv.style.display = "block";
             pause();
-            // requestFullScreen(elem);
+            canvas.height = canvasHeight
           }
     }
+}
+
+const targetTimerDiv = document.getElementById("timer");
+function toggleTimer(){
+    if (targetTimerDiv.style.display !== "none") {
+        targetTimerDiv.style.display = "none";
+        } else {
+        targetTimerDiv.style.display = "block";
+        }
 }
 
 function toggleFullscreen() {
@@ -155,4 +186,4 @@ document.addEventListener("focus", (e) => {
   }, true);
 
 
-// setInterval(draw, 1);
+// Stopwatch to time the length of each session
