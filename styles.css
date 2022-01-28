@@ -17,6 +17,6 @@ h1 {
     margin: 0 auto;
     display: block;
     overflow: hidden;
-    width: 99vw;
+    /* width: 99vw; */
   }
 
