@@ -3,7 +3,7 @@ var ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 // canvas.height = window.innerHeight;
 var ballRadius = 40;
-var x = canvas.width/2;
+var x = Math.max(canvas.width/2,550);
 var y = canvas.height/2;
 var dx = 0;
 var dy = 0;
@@ -14,7 +14,7 @@ var widthShrink = 0;
 var yBounce = 4;
 var widthShrinkMultiplier = 300;
 
-document.getElementById("displayDx").innerHTML = storedDx^2;
+document.getElementById("displayDx").innerHTML = storedDx/10;
 document.getElementById("displayYBounce").innerHTML = yBounce;
 
 function drawBall() {
@@ -39,15 +39,17 @@ let runSession = false;
         drawBall();
 
         // Bounce off left and right border
-        if(x + dx > canvas.width-ballRadius-widthShrink
-            || x + dx < ballRadius + widthShrink) {
+        if(runSession){
+            if(x + dx > canvas.width-ballRadius-widthShrink
+                || x + dx < ballRadius + widthShrink) {
 
-            // console.log('widthShrink',widthShrink);
-            // console.log('Hit x border','x',x,'dx',dx)
+                // console.log('widthShrink',widthShrink);
+                // console.log('Hit x border','x',x,'dx',dx)
 
-            dx = -dx;
-            // Bounce at a random shallow Y direction
-            dy = (dy + yBounce) * (1 - 2 * Math.random());
+                dx = -dx;
+                // Bounce at a random shallow Y direction
+                dy = (dy + yBounce) * (1 - 2 * Math.random());
+            }
         }
 
         // Bounce off top and bottom border
@@ -70,7 +72,6 @@ let runSession = false;
 
     }, 1000 / 60); // Force 60fps
 })(performance.now());
-// } while (runSession = true);
 
 
 function chooseColor(choice){
@@ -90,8 +91,8 @@ function adjustSize(size){
 }
 
 function adjustSpeed(speed){
-    storedDx = storedDx * speed;
-    document.getElementById("displayDx").innerHTML = storedDx^2;
+    storedDx = Math.max(0,storedDx + (speed * 10));
+    document.getElementById("displayDx").innerHTML = storedDx/10;
     // document.getElementById("displayDy").innerHTML = storedDy;
 }
 
@@ -129,7 +130,7 @@ function resetPosition(){
     widthShrinkMultiplier = 0;
     dx = 0;
     dy = 0;
-    x = canvas.width/2;
+    x = Math.max(canvas.width/2,550)
     y = canvas.height/2;
 }
 
@@ -166,9 +167,6 @@ function requestFullScreen(element) {
     }
 }
 
-
-// Hide buttons when unpaused
-const targetDiv = document.getElementById("buttons");
 var canvasHeight = canvas.height;
 var canvasHeightFull = window.innerHeight - 50
 
@@ -179,6 +177,27 @@ function resizeCanvas() {
 }
 window.addEventListener('resize', resizeCanvas, false);
 
+
+// Start/stop the ball
+function startButton(){
+    if (targetDiv.style.display !== "none") {
+        targetDiv.style.display = "none";
+        // Full height
+        canvas.height = canvasHeightFull;
+        canvas.width = window.innerWidth;
+        pause();
+      } else {
+        targetDiv.style.display = "block";
+        // Original height
+        canvas.height = canvasHeight;
+        pause();
+      }
+}
+
+
+// Hide buttons when unpaused
+const targetDiv = document.getElementById("buttons");
+
 document.body.onkeyup = function(e){
     if(e.keyCode == 32){
         if (targetDiv.style.display !== "none") {
@@ -187,7 +206,8 @@ document.body.onkeyup = function(e){
             canvas.height = canvasHeightFull;
             canvas.width = window.innerWidth;
             pause();
-          } else {
+          }
+          else {
             targetDiv.style.display = "block";
             // Original height
             canvas.height = canvasHeight;
@@ -195,6 +215,15 @@ document.body.onkeyup = function(e){
           }
     }
 }
+
+canvas.addEventListener("click", function () {
+    if (targetDiv.style.display === "none"){
+        targetDiv.style.display = "block";
+            // Original height
+            canvas.height = canvasHeight;
+            pause();
+        }
+ });
 
 const targetTimerDiv = document.getElementById("timer");
 function toggleTimer(){

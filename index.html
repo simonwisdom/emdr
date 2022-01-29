@@ -26,7 +26,11 @@
   </div>
 
   <div id="buttons">
-    <h2>Press spacebar to start!</h2>
+    <h2>Eye Movement Therapy</h2>
+    <h3>Online EMDR</h3>
+    <br>
+    <p>Press spacebar or click <button id="startButton" onClick="startButton()">Start!</button> to start!</p>
+    <br>
     <br>
     <span>Background colour &nbsp</span>
     <button onClick="backgroundColor('#000')">Black</button>
@@ -42,8 +46,8 @@
     <br>
     <br>
     <span>Current speed: <span id='displayDx'></span> &nbsp</span>
-    <button onClick="adjustSpeed(1.3)">Faster</button>
-    <button onClick="adjustSpeed(0.7)">Slower</button>
+    <button onClick="adjustSpeed(1)">Faster</button>
+    <button onClick="adjustSpeed(-1)">Slower</button>
     <br>
     <br>
     <span>Bounciness: <span id='displayYBounce'></span> &nbsp</span>
@@ -55,16 +59,16 @@
     <span>Size &nbsp</span>
     <button onClick="adjustSize(1.3)">Bigger</button>
     <button onClick="adjustSize(0.7)">Smaller</button>
-
-    <!-- <h3>Press Escape to exit fullscreen.</h3> -->
     <br>
     <br>
+    <br>
+    <div id="toggleButtons">
     <button onClick="toggleTimer()" >Toggle timer</button>
     <button onClick="toggleFullscreen()">Toggle fullscreen</button>
-    <br>
-    <br>
-    <span>If something weird happens..</span>
-    <button onClick="reloadPage()">Reset page</button>
+    </div>
+    <br><br>
+    <span>If something weird happens...</span>
+    <button id="resetButton" onClick="reloadPage()">Reset page</button>
 </div>
     <p id="timer" style="display:none">
       <span id="seconds">0</span> s

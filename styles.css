@@ -1,5 +1,6 @@
-h1 {
+h2, h3 {
     text-align: center;
+    margin: 5px;
   }
 
 #gameContainer {}
@@ -7,8 +8,8 @@ h1 {
 body {
   /* background: rgb(255, 255, 255); */
   background: rgb(0, 0, 0);
-  color: #b87c22;
-  font-family: 'Helvetica';
+  color: #4e4e4e;
+  font-family:  "Helvetica Neue", Arial, sans-serif;
 }
 
 canvas {
@@ -27,5 +28,60 @@ canvas {
 #buttons {
   margin: 20px;
   position: relative;
+  background: rgb(194, 194, 194);
+  border-radius:5px;
+  box-shadow: 0 2px 3px 0 rgba(0,0,0,.1);
+  /* margin:100px auto; */
+  padding:30px 20px 20px;
+  width:400px;
+  /* text-align: right; */
 }
 
+button {
+	display: inline-block;
+  margin: -5px 0 0 3px;
+  padding: 0.25rem 0.75rem;
+	border: 0;
+	border-radius: 0.317rem;
+	background-color: rgb(129, 129, 129);
+	color: #fff;
+	text-decoration: none;
+	font-weight: 300;
+	font-size: 1rem;
+  line-height: 1.5;
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	cursor: pointer;
+	-webkit-appearance: none;
+	-webkit-font-smoothing: antialiased;
+  float: right;
+}
+
+button:hover {
+	opacity: 0.85;
+}
+
+button:active {
+	box-shadow: inset 0 3px 4px hsla(0, 0%, 0%, 0.2);
+}
+
+button:focus {
+	outline: thin dotted #444;
+	outline: 5px auto -webkit-focus-ring-color;
+	outline-offset: -2px;
+}
+
+#startButton {
+  background-color: rgb(54, 65, 223);
+}
+
+#toggleButtons {
+  /* margin: auto; */
+  /* width: 70%; */
+  padding: 10px 0 10px 0;
+}
+
+#timer {
+  position: absolute;
+  bottom: 0;
+  margin: 10px;
+}
