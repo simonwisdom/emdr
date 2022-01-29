@@ -1,16 +1,17 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
-var ballRadius = 20;
+// canvas.height = window.innerHeight;
+var ballRadius = 40;
 var x = canvas.width/2;
-var y = 50;
+var y = canvas.height/2;
 var dx = 0;
 var dy = 0;
-var ballColor = "#0095DD";
-var storedDx = 60;
+var ballColor = 'pink' // blue "#0095DD";
+var storedDx = 80;
 var storedDy = 0.5;
 var widthShrink = 0;
-var yBounce = 3;
+var yBounce = 4;
 var widthShrinkMultiplier = 300;
 
 document.getElementById("displayDx").innerHTML = storedDx^2;
@@ -24,10 +25,13 @@ function drawBall() {
     ctx.closePath();
 }
 
+let runSession = false;
+
 (function draw() {
 
     setTimeout(function() {
 
+        console.log('x',x,'y',y);
         // ReDraw background rectance
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -37,8 +41,10 @@ function drawBall() {
         // Bounce off left and right border
         if(x + dx > canvas.width-ballRadius-widthShrink
             || x + dx < ballRadius + widthShrink) {
-            console.log('widthShrink',widthShrink);
-            console.log('Hit x border','x',x,'dx',dx)
+
+            // console.log('widthShrink',widthShrink);
+            // console.log('Hit x border','x',x,'dx',dx)
+
             dx = -dx;
             // Bounce at a random shallow Y direction
             dy = (dy + yBounce) * (1 - 2 * Math.random());
@@ -46,7 +52,8 @@ function drawBall() {
 
         // Bounce off top and bottom border
         if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
-            console.log('Hit y border','y',y,'dy',y)
+
+            // console.log('Hit y border','y',y,'dy',y)
             dy = -dy;
         }
 
@@ -55,13 +62,15 @@ function drawBall() {
         y += dy;
 
         // change the left and right inner boundaries
-        widthShrink = widthShrinkMultiplier * Math.random() * Math.random();
-
+        if(runSession){
+            widthShrink = widthShrinkMultiplier * Math.random() * Math.random();
+        }
         // loop the draw function
         window.requestAnimationFrame(draw);
 
     }, 1000 / 60); // Force 60fps
 })(performance.now());
+// } while (runSession = true);
 
 
 function chooseColor(choice){
@@ -120,8 +129,8 @@ function resetPosition(){
     widthShrinkMultiplier = 0;
     dx = 0;
     dy = 0;
-    x = canvas.width/4;
-    y = 10 + ballRadius;
+    x = canvas.width/2;
+    y = canvas.height/2;
 }
 
 // Freeze the ball on button click, or restart movement
@@ -129,11 +138,14 @@ function pause(){
     if (Math.abs(dx) > 0 || Math.abs(dy) > 0){
         resetPosition();
         clearTimer();
+        runSession = false;
         } else {
+          y = canvas.height/4;
           dx = storedDx;
           dy = storedDy;
           startSession();
           widthShrinkMultiplier = 300;
+          runSession = true;
         }
 }
 
@@ -161,10 +173,9 @@ var canvasHeight = canvas.height;
 var canvasHeightFull = window.innerHeight - 50
 
 function resizeCanvas() {
-
-    // resetPosition();
     canvas.height = canvasHeight;
     canvas.width = window.innerWidth;
+    // location.reload();
 }
 window.addEventListener('resize', resizeCanvas, false);
 
@@ -172,15 +183,15 @@ document.body.onkeyup = function(e){
     if(e.keyCode == 32){
         if (targetDiv.style.display !== "none") {
             targetDiv.style.display = "none";
-            pause();
             // Full height
             canvas.height = canvasHeightFull;
             canvas.width = window.innerWidth;
+            pause();
           } else {
             targetDiv.style.display = "block";
-            pause();
             // Original height
-            canvas.height = canvasHeight
+            canvas.height = canvasHeight;
+            pause();
           }
     }
 }
@@ -199,8 +210,7 @@ function toggleFullscreen() {
         document.exitFullscreen()
         console.log('x',x,'y',y)
         resizeCanvas();
-        // Original height
-        // canvas.height = canvasHeight
+        resetPosition();
       } else {
         document.documentElement.requestFullscreen();
     }
@@ -212,4 +222,12 @@ document.addEventListener("focus", (e) => {
     document.activeElement.blur()
   }, true);
 
+function reloadPage(){
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+        resizeCanvas();
+        resetPosition();
+    }
+    setTimeout(() => {location.reload();},10);
+}
 

@@ -2,21 +2,30 @@ h1 {
     text-align: center;
   }
 
-  #gameContainer {}
+#gameContainer {}
 
-  body {
-    /* background: rgb(255, 255, 255); */
-    background: rgb(0, 0, 0);
-    color: #b87c22;
-    font-family: 'Helvetica';
-  }
+body {
+  /* background: rgb(255, 255, 255); */
+  background: rgb(0, 0, 0);
+  color: #b87c22;
+  font-family: 'Helvetica';
+}
 
-  canvas {
-    /* background: #000000; */
-    padding: 20;
-    margin: 0 auto;
-    display: block;
-    overflow: hidden;
-    /* width: 99vw; */
-  }
+canvas {
+  /* background: #000000; */
+  padding: 20;
+  margin: 0 auto;
+  display: block;
+  overflow: hidden;
+}
+
+#gameContainer {
+  position: absolute;
+  height:300px;
+}
+
+#buttons {
+  margin: 20px;
+  position: relative;
+}
 
