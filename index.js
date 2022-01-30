@@ -31,7 +31,7 @@ let runSession = false;
 
     setTimeout(function() {
 
-        console.log('x',x,'y',y);
+        // console.log('x',x,'y',y);
         // ReDraw background rectance
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -40,8 +40,8 @@ let runSession = false;
 
         // Bounce off left and right border
         if(runSession){
-            if(x + dx > canvas.width-ballRadius-widthShrink
-                || x + dx < ballRadius + widthShrink) {
+            if(x + dx > canvas.width - +ballRadius - +widthShrink
+                || x + dx < +ballRadius + +widthShrink) {
 
                 // console.log('widthShrink',widthShrink);
                 // console.log('Hit x border','x',x,'dx',dx)
@@ -53,7 +53,7 @@ let runSession = false;
         }
 
         // Bounce off top and bottom border
-        if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+        if(y + dy > canvas.height - +ballRadius || y + dy < +ballRadius) {
 
             // console.log('Hit y border','y',y,'dy',y)
             dy = -dy;
@@ -69,7 +69,7 @@ let runSession = false;
         }
         // loop the draw function
         window.requestAnimationFrame(draw);
-
+        console.log(widthShrink);
     }, 1000 / 60); // Force 60fps
 })(performance.now());
 
@@ -86,8 +86,24 @@ function backgroundColor(choice){
 
 }
 
-function adjustSize(size){
-    ballRadius = ballRadius * size;
+const sizeSlider = document.getElementById("sizeRange");
+
+// soundElementIframe.appendChild(sizeSlider);
+// noUiSlider.create(sizeSlider, options);
+
+const sizeDisplay = document.getElementById("displaySize");
+sizeDisplay.innerHTML = sizeSlider.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+sizeSlider.oninput = function() {
+    sizeDisplay.innerHTML = this.value;
+    adjustSize();
+}
+
+function adjustSize(){
+    ballRadius = sizeSlider.value;
+    // ballRadius = ballRadius * size;
+    console.log(sizeSlider.value,ballRadius);
 }
 
 function adjustSpeed(speed){
@@ -173,8 +189,8 @@ var canvasHeightFull = window.innerHeight - 50
 function resizeCanvas() {
     canvas.height = canvasHeight;
     canvas.width = window.innerWidth;
-    // location.reload();
 }
+
 window.addEventListener('resize', resizeCanvas, false);
 
 
@@ -237,7 +253,7 @@ function toggleTimer(){
 function toggleFullscreen() {
     if (document.fullscreenElement) {
         document.exitFullscreen()
-        console.log('x',x,'y',y)
+        // console.log('x',x,'y',y)
         resizeCanvas();
         resetPosition();
       } else {

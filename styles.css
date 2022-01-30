@@ -3,8 +3,6 @@ h2, h3 {
     margin: 5px;
   }
 
-#gameContainer {}
-
 body {
   /* background: rgb(255, 255, 255); */
   background: rgb(0, 0, 0);
@@ -84,4 +82,70 @@ button:focus {
   position: absolute;
   bottom: 0;
   margin: 10px;
+}
+
+#blueColorButton {
+  background-color:#00BFFF;
+  padding: 15px;
+}
+
+#orangeColorButton {
+  background-color:orange;
+  padding: 15px;
+}
+
+#pinkColorButton {
+  background-color:pink;
+  padding: 15px;
+}
+
+#yellowColorButton {
+  background-color:gold;
+  padding: 15px;
+}
+
+#greyBackgroundButton {
+  background-color:#000;
+  padding: 15px;
+}
+
+#blackBackgroundButton {
+  background-color:#9c9c9c;
+  padding: 15px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 80%;
+  height: 10px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  float: right;
+  margin: 5px 0;
+}
+
+.slider:hover {
+  opacity: 0.85;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  /* border-radius: 80%; */
+  background: #4e4e4e;
+  cursor: pointer;
 }
