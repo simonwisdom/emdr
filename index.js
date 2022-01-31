@@ -8,14 +8,11 @@ var y = canvas.height/2;
 var dx = 0;
 var dy = 0;
 var ballColor = 'pink' // blue "#0095DD";
-var storedDx = 80;
+var storedDx = 50;
 var storedDy = 0.5;
 var widthShrink = 0;
 var yBounce = 4;
 var widthShrinkMultiplier = 300;
-
-document.getElementById("displayDx").innerHTML = storedDx/10;
-document.getElementById("displayYBounce").innerHTML = yBounce;
 
 function drawBall() {
     ctx.beginPath();
@@ -48,7 +45,7 @@ let runSession = false;
 
                 dx = -dx;
                 // Bounce at a random shallow Y direction
-                dy = (dy + yBounce) * (1 - 2 * Math.random());
+                dy = (dy + +yBounce) * (1 - 2 * Math.random());
             }
         }
 
@@ -86,11 +83,8 @@ function backgroundColor(choice){
 
 }
 
+// Size slider
 const sizeSlider = document.getElementById("sizeRange");
-
-// soundElementIframe.appendChild(sizeSlider);
-// noUiSlider.create(sizeSlider, options);
-
 const sizeDisplay = document.getElementById("displaySize");
 sizeDisplay.innerHTML = sizeSlider.value; // Display the default slider value
 
@@ -102,25 +96,57 @@ sizeSlider.oninput = function() {
 
 function adjustSize(){
     ballRadius = sizeSlider.value;
-    // ballRadius = ballRadius * size;
-    console.log(sizeSlider.value,ballRadius);
+    // console.log(sizeSlider.value,ballRadius);
 }
 
-function adjustSpeed(speed){
-    storedDx = Math.max(0,storedDx + (speed * 10));
-    document.getElementById("displayDx").innerHTML = storedDx/10;
-    // document.getElementById("displayDy").innerHTML = storedDy;
+// Bounce slider
+const bounceSlider = document.getElementById("bounceRange");
+const bounceDisplay = document.getElementById("displayBounce");
+bounceDisplay.innerHTML = bounceSlider.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+bounceSlider.oninput = function() {
+    bounceDisplay.innerHTML = this.value;;
+    adjustYbounce();
 }
 
-function adjustYbounce(bounce){
-    yBounce = yBounce + bounce;
-    if (yBounce > 8)
-        yBounce = 8;
-    if (yBounce < 0)
-        yBounce = 0;
-    document.getElementById("displayYBounce").innerHTML = yBounce;
-    // document.getElementById("displayDy").innerHTML = storedDy;
+function adjustYbounce(){
+    yBounce = bounceSlider.value;
+    // console.log(sizeSlider.value,yBounce);
 }
+
+// Speed slider
+const speedSlider = document.getElementById("speedRange");
+const speedDisplay = document.getElementById("displaySpeed");
+speedDisplay.innerHTML = speedSlider.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+speedSlider.oninput = function() {
+    speedDisplay.innerHTML = this.value;;
+    adjustSpeed();
+}
+
+function adjustSpeed(){
+    speed = speedSlider.value;
+    storedDx = Math.max(0,speed * 10) + 1;
+    // console.log(speedSlider.value,speed);
+}
+
+// function adjustSpeed(speed){
+//     storedDx = Math.max(0,storedDx + (speed * 10));
+//     document.getElementById("displayDx").innerHTML = storedDx/10;
+    // document.getElementById("displayDy").innerHTML = storedDy;
+// }
+
+// function adjustYbounce(bounce){
+//     yBounce = yBounce + bounce;
+//     if (yBounce > 8)
+//         yBounce = 8;
+//     if (yBounce < 0)
+//         yBounce = 0;
+//     document.getElementById("displayYBounce").innerHTML = yBounce;
+    // document.getElementById("displayDy").innerHTML = storedDy;
+// }
 
 // Stopwatch to time the length of each session
 var seconds = 0;
