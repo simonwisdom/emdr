@@ -45,16 +45,20 @@
     <button id="blueColorButton" onClick="chooseColor('deepskyblue')"></button>
     <br>
     <br>
-    <span>Current speed: <span id='displayDx'></span> &nbsp</span>
-    <button onClick="adjustSpeed(1)">Faster</button>
-    <button onClick="adjustSpeed(-1)">Slower</button>
-    <br>
-    <br>
-    <span>Bounciness: <span id='displayYBounce'></span> &nbsp</span>
-    <button onClick="adjustYbounce(1)">More bounce</button>
-    <button onClick="adjustYbounce(-1)">Less bounce</button>
+    <div class="slidecontainer">
+      <span>Speed &nbsp</span><span id="displaySpeed"></span>
+      <input type="range" min="0" max="10" value="5" class="slider" id="speedRange">
+    </div>
 
     <br>
+    <div class="slidecontainer">
+      <span>Bounce &nbsp</span><span id="displayBounce"></span>
+      <input type="range" min="0" max="10" value="2" class="slider" id="bounceRange">
+    </div>
+    <!-- <span>Bounciness: <span id='displayYBounce'></span> &nbsp</span>
+    <button onClick="adjustYbounce(1)">More bounce</button>
+    <button onClick="adjustYbounce(-1)">Less bounce</button> -->
+
     <br>
     <div class="slidecontainer">
       <span>Size &nbsp</span><span id="displaySize"></span>
