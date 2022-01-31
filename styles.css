@@ -116,7 +116,7 @@ button:focus {
 
 .slider {
   -webkit-appearance: none;
-  width: 80%;
+  width: 75%;
   height: 10px;
   border-radius: 5px;
   background: #d3d3d3;

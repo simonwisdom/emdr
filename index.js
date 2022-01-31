@@ -12,7 +12,12 @@ var storedDx = 50;
 var storedDy = 0.5;
 var widthShrink = 0;
 var yBounce = 4;
-var widthShrinkMultiplier = 300;
+var widthShrinkMultiplier = canvas.width * 0.2;
+
+function modifyWidthShrinkMultiplier(){
+    if(canvas.width > 600)
+        widthShrinkMultiplier = canvas.width * 0.2;
+}
 
 function drawBall() {
     ctx.beginPath();
@@ -187,7 +192,8 @@ function pause(){
           dx = storedDx;
           dy = storedDy;
           startSession();
-          widthShrinkMultiplier = 300;
+          modifyWidthShrinkMultiplier();
+        //   widthShrinkMultiplier = 300;
           runSession = true;
         }
 }
@@ -215,6 +221,7 @@ var canvasHeightFull = window.innerHeight - 50
 function resizeCanvas() {
     canvas.height = canvasHeight;
     canvas.width = window.innerWidth;
+    modifyWidthShrinkMultiplier();
 }
 
 window.addEventListener('resize', resizeCanvas, false);
