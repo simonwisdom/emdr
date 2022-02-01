@@ -13,6 +13,10 @@ var storedDy = 0.5;
 var widthShrink = 0;
 var yBounce = 4;
 var widthShrinkMultiplier = canvas.width * 0.2;
+var mode = 'slide'
+document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
+var blinkDuration = 250; // Duration in milliseconds
+var endBlink = 0;
 
 function modifyWidthShrinkMultiplier(){
     if(canvas.width > 600)
@@ -22,14 +26,22 @@ function modifyWidthShrinkMultiplier(){
 function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = ballColor;
+    if (mode==='slide'){
+        ctx.fillStyle = ballColor;
+    }
     ctx.fill();
     ctx.closePath();
 }
 
+function toggleMode() {
+    mode = (mode === 'slide' ? 'blink' : 'slide')
+    document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
+    // console.log(mode);
+}
+
 let runSession = false;
 
-(function draw() {
+(function draw(timeStamp) {
 
     setTimeout(function() {
 
@@ -51,6 +63,10 @@ let runSession = false;
                 dx = -dx;
                 // Bounce at a random shallow Y direction
                 dy = (dy + +yBounce) * (1 - 2 * Math.random());
+
+                // Set the ending time for the blink
+                endBlink = timeStamp + blinkDuration; // Hit a wall
+
             }
         }
 
@@ -65,8 +81,16 @@ let runSession = false;
         x += dx;
         y += dy;
 
+        // blink the ball when it hits left/right wall
+        if (mode==='blink'){
+            widthShrink = 50;
+            ctx.fillStyle = (endBlink > timeStamp ? ballColor : 'transparent');
+            x += (endBlink > timeStamp ? -dx : dx);
+            y += (endBlink > timeStamp ? -dy : dy);
+        }
+
         // change the left and right inner boundaries
-        if(runSession){
+        if(runSession & mode==='slide'){
             widthShrink = widthShrinkMultiplier * Math.random() * Math.random();
         }
         // loop the draw function
