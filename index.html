@@ -65,35 +65,41 @@
       <span>Size &nbsp</span><span id="displaySize"></span>
       <input type="range" min="5" max="100" value="40" class="slider" id="sizeRange">
     </div>
-    <!-- <button onClick="adjustSize(1.3)">Bigger</button>
-    <button onClick="adjustSize(0.7)">Smaller</button> -->
-    <br>
-    <br>
-    <br>
-    <div style='float:right; margin-top: -40px'>
-    <span>Mode: </span><span style='font-weight:bold;' id='modeDisplay'></span>
-    <br>
-      <label class="switch">
-        <input type="checkbox" onchange="toggleMode()">
-        <span class="sliderBox"></span>
-      </label>
+
+    <div>
+
+      <div id="toggleButtons" style='margin: 30px 35px 5px 5px; float:left'>
+        <button onClick="toggleTimer()" style='margin-top:-10px'>Toggle timer</button>
+        <button onClick="toggleFullscreen()" style='margin-top:-10px'>Toggle fullscreen</button>
+      </div>
+
+      <div style="margin-top: 20px">
+        <span>Mode: </span><span style='font-weight:bold;' id='modeDisplay'></span>
+        <label class="switch" >
+          <input type="checkbox" onchange="toggleMode()">
+          <span class="sliderBox"></span>
+        </label>
+      </div>
+
     </div>
+
+
     <br>
-    <br>
-    <div id="toggleButtons">
-    <button onClick="toggleTimer()" >Toggle timer</button>
-    <button onClick="toggleFullscreen()">Toggle fullscreen</button>
-    </div>
-    <br><br>
+    <div style="text-overflow:clip; width:180px;">
     <span>If something weird happens...</span>
+    </div>
+
+    <div style="float:right; margin-top: -25px;">
     <button id="resetButton" onClick="reloadPage()">Reset page</button>
+    <!-- <button id="resetButton" onClick="reloadPage()">Send feedback</button> -->
+    </div>
 </div>
     <p id="timer" style="display:none">
       <span id="seconds">0</span> s
     </p>
 
 <script defer src="./index.js"></script>
-  <!-- <script src="js/index.js"></script> -->
+
 </body>
 
 </html>

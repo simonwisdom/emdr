@@ -75,7 +75,8 @@ button:focus {
 #toggleButtons {
   /* margin: auto; */
   /* width: 70%; */
-  padding: 10px 0 10px 0;
+  /* margin-top: 40px; */
+  /* padding-top: 30px;  */
 }
 
 #timer {

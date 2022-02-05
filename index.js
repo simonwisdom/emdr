@@ -84,6 +84,7 @@ let runSession = false;
         // blink the ball when it hits left/right wall
         if (mode==='blink'){
             widthShrink = 50;
+            // widthShrink = widthShrinkMultiplier * Math.random() * 0.5;
             ctx.fillStyle = (endBlink > timeStamp ? ballColor : 'transparent');
             x += (endBlink > timeStamp ? -dx : dx);
             y += (endBlink > timeStamp ? -dy : dy);
@@ -109,7 +110,6 @@ function backgroundColor(choice){
     document.getElementById("gameContainer").style.background = choice;
     document.getElementById("myCanvas").style.background = choice;
     // document.getElementById("buttons").style.background = choice;
-
 }
 
 // Size slider
@@ -160,22 +160,6 @@ function adjustSpeed(){
     storedDx = Math.max(0,speed * 10) + 1;
     // console.log(speedSlider.value,speed);
 }
-
-// function adjustSpeed(speed){
-//     storedDx = Math.max(0,storedDx + (speed * 10));
-//     document.getElementById("displayDx").innerHTML = storedDx/10;
-    // document.getElementById("displayDy").innerHTML = storedDy;
-// }
-
-// function adjustYbounce(bounce){
-//     yBounce = yBounce + bounce;
-//     if (yBounce > 8)
-//         yBounce = 8;
-//     if (yBounce < 0)
-//         yBounce = 0;
-//     document.getElementById("displayYBounce").innerHTML = yBounce;
-    // document.getElementById("displayDy").innerHTML = storedDy;
-// }
 
 // Stopwatch to time the length of each session
 var seconds = 0;
