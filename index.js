@@ -7,16 +7,17 @@ var x = Math.max(canvas.width/2,550);
 var y = canvas.height/2;
 var dx = 0;
 var dy = 0;
-var ballColor = 'pink' // blue "#0095DD";
-var storedDx = 50;
+var ballColor = 'gold' // blue "#0095DD";
+var storedDx = 70;
 var storedDy = 0.5;
 var widthShrink = 0;
 var yBounce = 4;
 var widthShrinkMultiplier = canvas.width * 0.2;
 var mode = 'bounce'
 document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
-var blinkDuration = 250; // Duration in milliseconds
+var blinkDuration = 150; // Duration in milliseconds
 var endBlink = 0;
+var smoothingFunction;
 
 function modifyWidthShrinkMultiplier(){
     if(canvas.width > 600)
@@ -61,7 +62,7 @@ time = timestamp - start;
         widthShrink =  0.8 * Math.sin(time/500);
 
         if(runSession){
-        x = widthShrink * offset * (Math.cos(time/((10 - Math.min(speed,9.5))*100)) - 0.2 * Math.pow(Math.sin(time/((10 - Math.min(yBounce,9.5))*100)),4)) + offset
+        x = widthShrink * offset * (Math.cos(time/((10 - Math.min(speed,8.2))*50)) - 0.2 * Math.pow(Math.sin(time/((10 - Math.min(yBounce,9.5))*100)),4)) + offset
         y = (canvas.height / 4) * (Math.cos(time/1000) - 0.2 * Math.pow(Math.sin(time/1000),4)) + canvas.height / 2
         }
 
@@ -108,18 +109,19 @@ time = timestamp - start;
 
         // move the ball
         // x += dx;
-        x += dx * Math.sin(Math.PI*x/canvas.width) // Adding the sin wave makes movement smoother;
+        smoothingFunction = Math.pow(Math.sin(Math.PI*x/canvas.width),2);
+        x += dx * smoothingFunction; // Adding the sin wave makes movement smoother;
         y += dy;
 
-        console.log(x, Math.sin(Math.PI*x/canvas.width), 'storedDx', storedDx, 'dx', dx);
+        console.log(x, Math.sin(Math.PI*x/canvas.width),smoothingFunction, 'storedDx', storedDx, 'dx', dx);
 
         // blink the ball when it hits left/right wall
         if (mode==='blink'){
 
-            widthShrink = 50;
+            widthShrink =  100 * Math.random();
             // widthShrink = widthShrinkMultiplier * Math.random() * 0.5;
             ctx.fillStyle = (endBlink > timestamp ? ballColor : 'transparent');
-            x += (endBlink > timestamp ? -dx : dx);
+            x += (endBlink > timestamp ? -dx * smoothingFunction : dx * smoothingFunction);
             y += (endBlink > timestamp ? -dy : dy);
             }
 

@@ -100,6 +100,11 @@ button:focus {
   padding: 15px;
 }
 
+#deepPinkColorButton {
+  background-color:#FF1493;
+  padding: 15px;
+}
+
 #yellowColorButton {
   background-color:gold;
   padding: 15px;
