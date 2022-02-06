@@ -10,8 +10,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Eye Movement Therapy - Digital EMDR</title>
-  <meta name="description" content="A simple web based tool for psychologists and therapists to use during EMDR therapy.">
+  <title>Eye Movement Therapy - Free Online EMDR</title>
+  <meta name="description" content="A simple and free web based tool for psychologists and therapists to use during EMDR therapy.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
     integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
@@ -33,6 +33,17 @@
     <p>Press spacebar or click <button id="startButton" onClick="startButton()">Start!</button> to start!</p>
     <br>
     <br>
+
+    <div>
+      <span>Mode: </span><span style='font-weight:bold;' id='modeDisplay'></span>
+      <div style="margin-top:-20px;">
+        <button id="bounceMode" onClick="bounceMode()">Bounce</button>
+        <button id="blinkMode" onClick="blinkMode()">Blink</button>
+        <button id="sineMode" onClick="sineMode()">Sine</button>
+      </div>
+    </div>
+    <br><br>
+
     <span>Background colour &nbsp</span>
     <button id="greyBackgroundButton" onClick="backgroundColor('#000')"></button>
     <button id="blackBackgroundButton" onClick="backgroundColor('#9c9c9c')"></button>
@@ -66,32 +77,19 @@
       <input type="range" min="5" max="100" value="40" class="slider" id="sizeRange">
     </div>
 
-    <div>
-
-      <div id="toggleButtons" style='margin: 30px 35px 5px 5px; float:left'>
+      <div id="toggleButtons" style='margin: 30px 0 5px 0;'>
         <button onClick="toggleTimer()" style='margin-top:-10px'>Toggle timer</button>
         <button onClick="toggleFullscreen()" style='margin-top:-10px'>Toggle fullscreen</button>
       </div>
 
-      <div style="margin-top: 20px">
-        <span>Mode: </span><span style='font-weight:bold;' id='modeDisplay'></span>
-        <label class="switch" >
-          <input type="checkbox" onchange="toggleMode()">
-          <span class="sliderBox"></span>
-        </label>
+    <div style="margin-top: 65px;">
+      <div style="text-overflow:clip; width:180px;">
+        <span>If something weird happens...</span>
       </div>
 
-    </div>
-
-
-    <br>
-    <div style="text-overflow:clip; width:180px;">
-    <span>If something weird happens...</span>
-    </div>
-
-    <div style="float:right; margin-top: -25px;">
-    <button id="resetButton" onClick="reloadPage()">Reset page</button>
-    <!-- <button id="resetButton" onClick="reloadPage()">Send feedback</button> -->
+      <div style="float:right; margin-top: -25px;">
+        <button id="resetButton" onClick="reloadPage()">Reset page</button>
+      </div>
     </div>
 </div>
     <p id="timer" style="display:none">

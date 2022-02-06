@@ -13,7 +13,7 @@ var storedDy = 0.5;
 var widthShrink = 0;
 var yBounce = 4;
 var widthShrinkMultiplier = canvas.width * 0.2;
-var mode = 'slide'
+var mode = 'bounce'
 document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
 var blinkDuration = 250; // Duration in milliseconds
 var endBlink = 0;
@@ -26,7 +26,7 @@ function modifyWidthShrinkMultiplier(){
 function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    if (mode==='slide'){
+    if (mode==='bounce' || 'sine'){
         ctx.fillStyle = ballColor;
     }
     ctx.fill();
@@ -34,16 +34,52 @@ function drawBall() {
 }
 
 function toggleMode() {
-    mode = (mode === 'slide' ? 'blink' : 'slide')
+    mode = (mode === 'bounce' ? 'blink' : 'bounce')
     document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
     // console.log(mode);
 }
 
+function bounceMode() {
+    mode = 'bounce';
+    document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
+}
+
+function blinkMode() {
+    mode = 'blink';
+    document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
+}
+
+function sineMode() {
+    mode = 'sine';
+    document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
+}
+
 let runSession = false;
+var start;
+var offset = canvas.width/2;
+var speed = 5;
 
-(function draw(timeStamp) {
+(function draw(timestamp) {
+if (!start) { start = timestamp };
+time = timestamp - start;
 
-    setTimeout(function() {
+    if (mode === 'sine'){
+        widthShrink =  0.8 * Math.sin(time/500);
+
+        if(runSession){
+        x = widthShrink * offset * (Math.cos(time/((10 - Math.min(speed,9.5))*100)) - 0.2 * Math.pow(Math.sin(time/((10 - Math.min(yBounce,9.5))*100)),4)) + offset
+        y = (canvas.height / 4) * (Math.cos(time/1000) - 0.2 * Math.pow(Math.sin(time/1000),4)) + canvas.height / 2
+        }
+
+        // console.log(time, x, y);
+
+        // Draw the ball (includes clearing the previous frame)
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // ctx.beginPath();
+        drawBall();
+        window.requestAnimationFrame(draw);
+    }
+    else if (mode != 'sine'){
 
         // console.log('x',x,'y',y);
         // ReDraw background rectance
@@ -65,7 +101,7 @@ let runSession = false;
                 dy = (dy + +yBounce) * (1 - 2 * Math.random());
 
                 // Set the ending time for the blink
-                endBlink = timeStamp + blinkDuration; // Hit a wall
+                endBlink = timestamp + blinkDuration; // Hit a wall
 
             }
         }
@@ -83,21 +119,22 @@ let runSession = false;
 
         // blink the ball when it hits left/right wall
         if (mode==='blink'){
+
             widthShrink = 50;
             // widthShrink = widthShrinkMultiplier * Math.random() * 0.5;
-            ctx.fillStyle = (endBlink > timeStamp ? ballColor : 'transparent');
-            x += (endBlink > timeStamp ? -dx : dx);
-            y += (endBlink > timeStamp ? -dy : dy);
-        }
+            ctx.fillStyle = (endBlink > timestamp ? ballColor : 'transparent');
+            x += (endBlink > timestamp ? -dx : dx);
+            y += (endBlink > timestamp ? -dy : dy);
+            }
 
         // change the left and right inner boundaries
-        if(runSession & mode==='slide'){
+        if(runSession & mode==='bounce'){
             widthShrink = widthShrinkMultiplier * Math.random() * Math.random();
         }
         // loop the draw function
         window.requestAnimationFrame(draw);
-        console.log(widthShrink);
-    }, 1000 / 60); // Force 60fps
+        // console.log(widthShrink);
+    }
 })(performance.now());
 
 
