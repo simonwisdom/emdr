@@ -33,12 +33,6 @@ function drawBall() {
     ctx.closePath();
 }
 
-function toggleMode() {
-    mode = (mode === 'bounce' ? 'blink' : 'bounce')
-    document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
-    // console.log(mode);
-}
-
 function bounceMode() {
     mode = 'bounce';
     document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
@@ -81,7 +75,6 @@ time = timestamp - start;
     }
     else if (mode != 'sine'){
 
-        // console.log('x',x,'y',y);
         // ReDraw background rectance
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -114,8 +107,11 @@ time = timestamp - start;
         }
 
         // move the ball
-        x += dx;
+        // x += dx;
+        x += dx * Math.sin(Math.PI*x/canvas.width) // Adding the sin wave makes movement smoother;
         y += dy;
+
+        console.log(x, Math.sin(Math.PI*x/canvas.width), 'storedDx', storedDx, 'dx', dx);
 
         // blink the ball when it hits left/right wall
         if (mode==='blink'){
@@ -194,7 +190,8 @@ speedSlider.oninput = function() {
 
 function adjustSpeed(){
     speed = speedSlider.value;
-    storedDx = Math.max(0,speed * 10) + 1;
+    storedDx = Math.sin(Math.PI*x/canvas.width) * speed * 10;
+    // storedDx = Math.max(0,speed * 10) + 1;
     // console.log(speedSlider.value,speed);
 }
 
@@ -234,7 +231,7 @@ function pause(){
         runSession = false;
         } else {
           y = canvas.height/4;
-          dx = storedDx;
+          dx = storedDx + Math.sin(Math.PI*x/canvas.width);
           dy = storedDy;
           startSession();
           modifyWidthShrinkMultiplier();
