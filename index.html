@@ -37,9 +37,12 @@
     <div>
       <span>Mode: </span><span style='font-weight:bold;' id='modeDisplay'></span>
       <div style="margin-top:-20px;">
-        <button id="bounceMode" onClick="bounceMode()">Bounce</button>
         <button id="blinkMode" onClick="blinkMode()">Blink</button>
         <button id="sineMode" onClick="sineMode()">Sine</button>
+        <button id="sweepMode" onClick="sweepMode()">Sweep</button>
+        <button id="bounceMode" onClick="bounceMode()">Bounce</button>
+
+
       </div>
     </div>
     <br><br>
@@ -93,9 +96,12 @@
       </div>
     </div>
 </div>
-    <p id="timer" style="display:none">
+    <p id="timer" style="display:none; font-size: 20px;">
       <span id="seconds">0</span> s
+      <br>
+      <span id="hertz">0</span> Hz
     </p>
+
 
 <script defer src="./index.js"></script>
 

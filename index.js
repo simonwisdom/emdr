@@ -15,19 +15,19 @@ var yBounce = 4;
 var widthShrinkMultiplier = canvas.width * 0.2;
 var mode = 'bounce'
 document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
-var blinkDuration = 150; // Duration in milliseconds
-var endBlink = 0;
+var sweepDuration = 175; // Duration in milliseconds
+var endSweep = 0;
 var smoothingFunction;
 
 function modifyWidthShrinkMultiplier(){
     if(canvas.width > 600)
-        widthShrinkMultiplier = canvas.width * 0.2;
+        widthShrinkMultiplier = canvas.width * 0.1;
 }
 
 function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    if (mode==='bounce' || 'sine'){
+    if (mode!='blink'){
         ctx.fillStyle = ballColor;
     }
     ctx.fill();
@@ -39,8 +39,8 @@ function bounceMode() {
     document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
 }
 
-function blinkMode() {
-    mode = 'blink';
+function sweepMode() {
+    mode = 'sweep';
     document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
 }
 
@@ -49,10 +49,18 @@ function sineMode() {
     document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
 }
 
+function blinkMode() {
+    mode = 'blink';
+    document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
+}
+
 let runSession = false;
 var start;
 var offset = canvas.width/2;
 var speed = 5;
+var counter = 0;
+var bounceHz;
+
 
 (function draw(timestamp) {
 if (!start) { start = timestamp };
@@ -66,7 +74,6 @@ time = timestamp - start;
         y = (canvas.height / 4) * (Math.cos(time/1000) - 0.2 * Math.pow(Math.sin(time/1000),4)) + canvas.height / 2
         }
 
-        // console.log(time, x, y);
 
         // Draw the ball (includes clearing the previous frame)
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -87,47 +94,53 @@ time = timestamp - start;
             if(x + dx > canvas.width - +ballRadius - +widthShrink
                 || x + dx < +ballRadius + +widthShrink) {
 
-                // console.log('widthShrink',widthShrink);
-                // console.log('Hit x border','x',x,'dx',dx)
+                // Hertz = cycles per second
+                // A cycle is the ball moving left-right-left, ie crossing the screen twice,
+                // and ending up where it started. I can count when it hits the side of the screen,
+                // so every 2 ‘hits’ = 1 cycle.
+                // Cycle / Time = Hertz
+
+                counter = counter + 1
+                bounceHz = Math.round((counter/2)/(time/1000) * 100) / 100
+
+                // console.log('time',time/1000,'counter',counter,'hz',bounceHz, 'widthShrink',widthShrink, Math.random());
 
                 dx = -dx;
                 // Bounce at a random shallow Y direction
                 dy = (dy + +yBounce) * (1 - 2 * Math.random());
 
-                // Set the ending time for the blink
-                endBlink = timestamp + blinkDuration; // Hit a wall
+                // Set the ending time for the sweep
+                endSweep = timestamp + sweepDuration; // Hit a wall
 
             }
         }
 
         // Bounce off top and bottom border
         if(y + dy > canvas.height - +ballRadius || y + dy < +ballRadius) {
-
-            // console.log('Hit y border','y',y,'dy',y)
             dy = -dy;
         }
 
         // move the ball
-        // x += dx;
-        smoothingFunction = Math.pow(Math.sin(Math.PI*x/canvas.width),2);
+        smoothingFunction = Math.pow(Math.sin(Math.PI*x/(canvas.width+widthShrink)),2);
         x += dx * smoothingFunction; // Adding the sin wave makes movement smoother;
         y += dy;
 
-        console.log(x, Math.sin(Math.PI*x/canvas.width),smoothingFunction, 'storedDx', storedDx, 'dx', dx);
+        // console.log(x, Math.sin(Math.PI*x/canvas.width),smoothingFunction, 'storedDx', storedDx, 'dx', dx);
 
-        // blink the ball when it hits left/right wall
-        if (mode==='blink'){
+        // sweep the ball when it hits left/right wall
+        if (mode==='sweep'||mode=='blink'){
 
-            widthShrink =  100 * Math.random();
-            // widthShrink = widthShrinkMultiplier * Math.random() * 0.5;
-            ctx.fillStyle = (endBlink > timestamp ? ballColor : 'transparent');
-            x += (endBlink > timestamp ? -dx * smoothingFunction : dx * smoothingFunction);
-            y += (endBlink > timestamp ? -dy : dy);
-            }
+            widthShrink = (endSweep > timestamp ? 0: widthShrinkMultiplier * Math.pow(Math.random(),2) - ballRadius);
+
+            ctx.fillStyle = (endSweep > timestamp ? ballColor : 'transparent');
+
+            x += (endSweep > timestamp ? -dx * smoothingFunction : dx * smoothingFunction);
+            y += (endSweep > timestamp ? -dy : dy);
+        }
 
         // change the left and right inner boundaries
         if(runSession & mode==='bounce'){
-            widthShrink = widthShrinkMultiplier * Math.random() * Math.random();
+            widthShrink = (endSweep > timestamp ? 0: widthShrinkMultiplier * Math.pow(Math.random(),2) - ballRadius);
         }
         // loop the draw function
         window.requestAnimationFrame(draw);
@@ -191,8 +204,9 @@ speedSlider.oninput = function() {
 }
 
 function adjustSpeed(){
+    console.log(canvas.width);
     speed = speedSlider.value;
-    storedDx = Math.sin(Math.PI*x/canvas.width) * speed * 10;
+    storedDx = speed * 14; // * Math.sin(Math.PI*x/canvas.width)
     // storedDx = Math.max(0,speed * 10) + 1;
     // console.log(speedSlider.value,speed);
 }
@@ -201,10 +215,14 @@ function adjustSpeed(){
 var seconds = 0;
 var Interval;
 var appendSeconds = document.getElementById("seconds")
+var appendHertz = document.getElementById("hertz")
 
 function startTimer () {
     seconds++;
     appendSeconds.innerHTML = seconds/10;
+    if (typeof bounceHz != 'undefined') {
+        appendHertz.innerHTML = bounceHz;
+    }
 }
 
 function startSession() {
@@ -215,6 +233,8 @@ function startSession() {
 function clearTimer() {
     clearInterval(Interval);
     seconds = 0;
+    counter = 0;
+    start = 0;
 }
 
 function resetPosition(){
@@ -237,8 +257,8 @@ function pause(){
           dy = storedDy;
           startSession();
           modifyWidthShrinkMultiplier();
-        //   widthShrinkMultiplier = 300;
           runSession = true;
+          start = 0;
         }
 }
 
@@ -327,6 +347,7 @@ function toggleTimer(){
         }
 }
 
+
 function toggleFullscreen() {
     if (document.fullscreenElement) {
         document.exitFullscreen()
@@ -352,4 +373,3 @@ function reloadPage(){
     }
     setTimeout(() => {location.reload();},10);
 }
-
