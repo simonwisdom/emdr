@@ -7,7 +7,8 @@ var x = Math.max(canvas.width/2,550);
 var y = canvas.height/2;
 var dx = 0;
 var dy = 0;
-var ballColor = 'gold' // blue "#0095DD";
+var ballColor = 'gold'; // blue "#0095DD";
+// export { ballColor };
 var storedDx = 70;
 var storedDy = 0.5;
 var widthShrink = 0;
@@ -37,25 +38,30 @@ function drawBall() {
 function bounceMode() {
     mode = 'bounce';
     document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
+    if (win2) win2.mode = 'bounce';
 }
 
 function sweepMode() {
     mode = 'sweep';
     document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
+    if (win2) win2.mode = 'sweep';
 }
 
 function sineMode() {
     mode = 'sine';
     document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
+    if (win2) win2.mode = 'sine';
 }
 
 function blinkMode() {
     mode = 'blink';
     document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
+    if (win2) win2.mode = 'blink';
 }
 
 let runSession = false;
 var start;
+var time;
 var offset = canvas.width/2;
 var speed = 5;
 var counter = 0;
@@ -373,3 +379,44 @@ function reloadPage(){
     }
     setTimeout(() => {location.reload();},10);
 }
+
+
+var win2;
+
+function openSecondaryWindow() {
+    return win2 = window.open('./secondary.html', 'secondary', 'width=450,height=450');
+}
+
+function startRemote() {
+    if (win2) {
+        console.log('window1')
+        win2.console.log('window2');
+        win2.startButton();
+    }
+    else alert('The secondary window is not open.');
+    return false;
+}
+
+(function() {
+
+    if (!openSecondaryWindow()) $(document.body).prepend('<a href="#">Popup blocked.  Click here to open the secondary window.</a>').click(function() {
+        openSecondaryWindow();
+        return false;
+    });
+
+    getElementById('startButton').click(function() {
+        if (win2) {
+            console.log('window1')
+            win2.console.log('window2');
+            win2.startRemote();
+        }
+        else alert('The secondary window is not open.');
+        return false;
+    });
+});
+
+// export all functions as modules
+// export { startSession, startButton, pause, clearTimer, startRemote, toggleTimer, toggleFullscreen, reloadPage, openSecondaryWindow, startRemote, startTimer, modifyWidthShrinkMultiplier, speedSlider, bounceHz, runSession, storedDx, storedDy, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier};
+
+// module.exports = startButton;
+// export { startButton } // = startButton;
