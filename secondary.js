@@ -15,11 +15,10 @@ var widthShrink = 0;
 var yBounce = 4;
 var widthShrinkMultiplier = canvas.width * 0.2;
 var mode = 'bounce'
-document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
+// document.getElementById("modeDisplay").innerHTML = mode.charAt(0).toUpperCase() + mode.slice(1);
 var sweepDuration = 175; // Duration in milliseconds
 var endSweep = 0;
 var smoothingFunction;
-var win2;
 
 function modifyWidthShrinkMultiplier(){
     if(canvas.width > 600)
@@ -110,7 +109,7 @@ time = timestamp - start;
                 counter = counter + 1
                 bounceHz = Math.round((counter/2)/(time/1000) * 100) / 100
 
-                // console.log('time',time/1000,'counter',counter,'hz',bounceHz, 'widthShrink',widthShrink, Math.random());
+                console.log('time',time/1000,'counter',counter,'hz',bounceHz);
 
                 dx = -dx;
                 // Bounce at a random shallow Y direction
@@ -158,98 +157,91 @@ time = timestamp - start;
 
 function chooseColor(choice){
     ballColor = choice;
-    if (win2) win2.ballColor = choice;
 }
 
 function backgroundColor(choice){
     document.body.style.background = choice;
     document.getElementById("gameContainer").style.background = choice;
     document.getElementById("myCanvas").style.background = choice;
-    if (win2) {
-        win2.document.body.style.background = choice;
-        win2.document.getElementById("gameContainer").style.background = choice;
-        win2.document.getElementById("myCanvas").style.background = choice;
-    }
+    // document.getElementById("buttons").style.background = choice;
 }
 
 // Size slider
-const sizeSlider = document.getElementById("sizeRange");
-const sizeDisplay = document.getElementById("displaySize");
-sizeDisplay.innerHTML = sizeSlider.value; // Display the default slider value
+// const sizeSlider = document.getElementById("sizeRange");
+// const sizeDisplay = document.getElementById("displaySize");
+// sizeDisplay.innerHTML = sizeSlider.value; // Display the default slider value
 
 // Update the current slider value (each time you drag the slider handle)
-sizeSlider.oninput = function() {
-    sizeDisplay.innerHTML = this.value;
-    adjustSize();
-}
+// sizeSlider.oninput = function() {
+//     sizeDisplay.innerHTML = this.value;
+//     adjustSize();
+// }
 
 function adjustSize(){
     ballRadius = sizeSlider.value;
-    if (win2) win2.ballRadius = ballRadius;
+    // console.log(sizeSlider.value,ballRadius);
 }
 
 // Bounce slider
-const bounceSlider = document.getElementById("bounceRange");
-const bounceDisplay = document.getElementById("displayBounce");
-bounceDisplay.innerHTML = bounceSlider.value; // Display the default slider value
+// const bounceSlider = document.getElementById("bounceRange");
+// const bounceDisplay = document.getElementById("displayBounce");
+// bounceDisplay.innerHTML = bounceSlider.value; // Display the default slider value
 
 // Update the current slider value (each time you drag the slider handle)
-bounceSlider.oninput = function() {
-    bounceDisplay.innerHTML = this.value;;
-    adjustYbounce();
-}
+// bounceSlider.oninput = function() {
+//     bounceDisplay.innerHTML = this.value;;
+//     adjustYbounce();
+// }
 
 function adjustYbounce(){
     yBounce = bounceSlider.value;
-    if (win2) win2.yBounce = yBounce;
+    // console.log(sizeSlider.value,yBounce);
 }
 
 // Speed slider
-const speedSlider = document.getElementById("speedRange");
-const speedDisplay = document.getElementById("displaySpeed");
-speedDisplay.innerHTML = speedSlider.value; // Display the default slider value
+// const speedSlider = document.getElementById("speedRange");
+// const speedDisplay = document.getElementById("displaySpeed");
+// speedDisplay.innerHTML = speedSlider.value; // Display the default slider value
 
 // Update the current slider value (each time you drag the slider handle)
-speedSlider.oninput = function() {
-    speedDisplay.innerHTML = this.value;;
-    adjustSpeed();
-}
+// speedSlider.oninput = function() {
+//     speedDisplay.innerHTML = this.value;;
+//     adjustSpeed();
+// }
 
 function adjustSpeed(){
-    // console.log(canvas.width);
+    console.log(canvas.width);
     speed = speedSlider.value;
     storedDx = speed * 14; // * Math.sin(Math.PI*x/canvas.width)
-    if (win2) win2.storedDx = storedDx;
+    // storedDx = Math.max(0,speed * 10) + 1;
+    // console.log(speedSlider.value,speed);
 }
 
 // Stopwatch to time the length of each session
 var seconds = 0;
 var Interval;
-var appendSeconds = document.getElementById("seconds")
-var appendHertz = document.getElementById("hertz")
+// var appendSeconds = document.getElementById("seconds")
+// var appendHertz = document.getElementById("hertz")
 
-function startTimer () {
-    seconds++;
-    appendSeconds.innerHTML = seconds/10;
-    if (typeof bounceHz != 'undefined') {
-        appendHertz.innerHTML = bounceHz;
-    }
-    else if (win2 && typeof win2.bounceHz != 'undefined') {
-        appendHertz.innerHTML = win2.bounceHz;
-        // console.log(win2.counter, win2.bounceHz);
-    }
-}
+// function startTimer () {
+    // seconds++;
+    // appendSeconds.innerHTML = seconds/10;
+    // if (typeof bounceHz != 'undefined') {
+    //     appendHertz.innerHTML = bounceHz;
+    // }
+// }
 
 function startSession() {
     clearInterval(Interval);
-    Interval = setInterval(startTimer, 100);
+    Interval = setInterval(window.opener.startTimer, 100);
 }
 
 function clearTimer() {
     clearInterval(Interval);
-    seconds = 0;
-    counter = 0;
-    start = 0;
+    window.opener.clearInterval(Interval);
+    window.opener.seconds = 0;
+    window.opener.counter = 0;
+    window.opener.start = 0;
 }
 
 function resetPosition(){
@@ -266,6 +258,7 @@ function pause(){
         resetPosition();
         clearTimer();
         runSession = false;
+        window.opener.runSession = false;
         } else {
           y = canvas.height/4;
           dx = storedDx + Math.sin(Math.PI*x/canvas.width);
@@ -273,6 +266,7 @@ function pause(){
           startSession();
           modifyWidthShrinkMultiplier();
           runSession = true;
+          window.opener.runSession = true;
           start = 0;
         }
 }
@@ -305,26 +299,30 @@ function resizeCanvas() {
 
 window.addEventListener('resize', resizeCanvas, false);
 
+// console.log(window.opener.document);
 
 // Start/stop the ball
 function startButton(){
-    if (targetDiv.style.display !== "none") {
-        targetDiv.style.display = "none";
+    if (runSession === false){
+        // targetDiv.style.display = "none";
         // Full height
         canvas.height = canvasHeightFull;
         canvas.width = window.innerWidth;
         pause();
+        window.opener.document.getElementById('startRemoteButton').innerHTML = 'Stop Remote';
       } else {
-        targetDiv.style.display = "block";
+        // targetDiv.style.display = "block";
         // Original height
         canvas.height = canvasHeight;
         pause();
+        window.opener.document.getElementById('startRemoteButton').innerHTML = 'Start Remote';
+
       }
 }
 
 
 // Hide buttons when unpaused
-const targetDiv = document.getElementById("buttons");
+// const targetDiv = document.getElementById("buttons");
 
 document.body.onkeyup = function(e){
     if(e.keyCode == 32){
@@ -334,26 +332,24 @@ document.body.onkeyup = function(e){
             canvas.height = canvasHeightFull;
             canvas.width = window.innerWidth;
             pause();
-            if (win2) win2.startButton();
           }
           else {
             targetDiv.style.display = "block";
             // Original height
             canvas.height = canvasHeight;
             pause();
-            if (win2) win2.startButton();
           }
     }
 }
 
-canvas.addEventListener("click", function () {
-    if (targetDiv.style.display === "none"){
-        targetDiv.style.display = "block";
-            // Original height
-            canvas.height = canvasHeight;
-            pause();
-        }
- });
+// canvas.addEventListener("click", function () {
+//     if (targetDiv.style.display === "none"){
+//         targetDiv.style.display = "block";
+//             // Original height
+//             canvas.height = canvasHeight;
+//             pause();
+//         }
+//  });
 
 const targetTimerDiv = document.getElementById("timer");
 function toggleTimer(){
@@ -368,10 +364,13 @@ function toggleTimer(){
 function toggleFullscreen() {
     if (document.fullscreenElement) {
         document.exitFullscreen()
+        // console.log('x',x,'y',y)
         resizeCanvas();
         resetPosition();
+        document.getElementById('fullscreenButton').style.display = "block";
       } else {
         document.documentElement.requestFullscreen();
+        document.getElementById('fullscreenButton').style.display = "none";
     }
 
 }
@@ -390,47 +389,7 @@ function reloadPage(){
     setTimeout(() => {location.reload();},10);
 }
 
-// Open and control secondary window
-
-function openSecondaryWindow() {
-    document.getElementById('openRemoteButton').innerHTML = 'Reset';
-    // if (win2) document.getElementById('openRemoteButton').innerHTML = 'Reset';
-    return win2 = window.open('./secondary.html', 'secondary', 'width=850,height=450');
-}
-
-function startRemote() {
-    if (win2) {
-        console.log('window1')
-        // win2.console.log('window2');
-        try {win2.startButton();} catch(error) {
-            alert('Remote window does not work on this browser. Try Firefox.');
-        };
-
-    }
-    else alert('Open the secondary window first.');
-    return false;
-}
-
-(function() {
-
-    if (!openSecondaryWindow()) $(document.body).prepend('<a href="#">Popup blocked.  Click here to open the secondary window.</a>').click(function() {
-        openSecondaryWindow();
-        return false;
-    });
-
-    getElementById('startButton').click(function() {
-        if (win2) {
-            console.log('window1')
-            win2.console.log('window2');
-            win2.startRemote();
-        }
-        else alert('The secondary window is not open.');
-        return false;
-    });
-});
-
-// export all functions as modules
-// export { startSession, startButton, pause, clearTimer, startRemote, toggleTimer, toggleFullscreen, reloadPage, openSecondaryWindow, startRemote, startTimer, modifyWidthShrinkMultiplier, speedSlider, bounceHz, runSession, storedDx, storedDy, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier};
-
-// module.exports = startButton;
-// export { startButton } // = startButton;
+window.addEventListener('beforeunload', function(e) {
+    clearTimer();
+    window.opener.document.getElementById('openRemoteButton').innerHTML = 'Open';
+}, false);
