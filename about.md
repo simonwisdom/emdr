@@ -12,7 +12,7 @@ A session usually lasts one to two hours, but can be extended depending on the i
 
 **How do I use this app?**
 
-1. Open the app: [eyemovement.online](eyemovement.online)
+1. Open the app: [http://eyemovement.online](eyemovement.online)
 2. Decide if you want to use your primary or secondary screen. If you want to use a secondary screen, click the 'Open' button, and drag the new window to the second screen.
 3. Choose the movement mode 
   - 'Bounce' hits each wall and reverses direction as you would expect
