@@ -235,7 +235,7 @@ function startTimer () {
         appendHertz.innerHTML = bounceHz;
     }
     else if (win2 && typeof win2.bounceHz != 'undefined') {
-        appendHertz.innerHTML = win2.bounceHz;
+        appendHertz.innerHTML = '(Remote) ' + win2.bounceHz;
         // console.log(win2.counter, win2.bounceHz);
     }
 }
@@ -428,9 +428,3 @@ function startRemote() {
         return false;
     });
 });
-
-// export all functions as modules
-// export { startSession, startButton, pause, clearTimer, startRemote, toggleTimer, toggleFullscreen, reloadPage, openSecondaryWindow, startRemote, startTimer, modifyWidthShrinkMultiplier, speedSlider, bounceHz, runSession, storedDx, storedDy, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier, canvas, canvasHeight, canvasHeightFull, widthShrinkMultiplier, speed, seconds, Interval, appendSeconds, appendHertz, start, counter, runSession, start, bounceHz, widthShrinkMultiplier, x, y, dx, dy, widthShrinkMultiplier};
-
-// module.exports = startButton;
-// export { startButton } // = startButton;
