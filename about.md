@@ -12,19 +12,20 @@ A session usually lasts one to two hours, but can be extended depending on the i
 
 **How do I use this app?**
 
-1. Decide if you want to use your primary or secondary screen. If you want to use a secondary screen, click the 'Open' button, and drag the new window to the second screen.
-2. Choose the movement mode 
+1. Open the app: [eyemovement.online](eyemovement.online)
+2. Decide if you want to use your primary or secondary screen. If you want to use a secondary screen, click the 'Open' button, and drag the new window to the second screen.
+3. Choose the movement mode 
   - 'Bounce' hits each wall and reverses direction as you would expect
   - 'Sweep' pauses briefly at each edge of the screen
   - 'Sine' undulates and wiggles back and forth in a complex pattern
   - 'Blink' flashes briefly at each edge, and disappears while moving
-3. Choose the ball color, size, and bounce (y-direction randomness). Bounce may have different effects depending on the movement mode.
-4. Go fullscreen, or toggle the timer, if you like.
-5. Start the session by pressing the 'Start' or 'Start Remote' button and begin therapy.
+4. Choose the ball color, size, and bounce (y-direction randomness). Bounce may have different effects depending on the movement mode.
+5. Go fullscreen, or toggle the timer, if you like.
+6. Start the session by pressing the 'Start' or 'Start Remote' button and begin therapy.
 
 **What's different about this app?**
 
-There are other free EMDR apps, eg. [https://www.bilateralstimulation.io/](https://www.bilateralstimulation.io/) but none that I have found allow the ball to move up and down, only left to right.
+There are other free EMDR apps, eg. [bilateralstimulation.io/](https://www.bilateralstimulation.io/) but none that I have found allow the ball to move up and down, only left to right.
 There is some evidence that vertical as well as horizontal motion is important for effective therapy.
 
 **Who made this app?**
